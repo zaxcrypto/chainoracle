@@ -1,4 +1,4 @@
-## Onchain ChainOracle 🔮
+## On-chain Oracle 🔮
 <img width="1867" height="964" alt="image" src="https://github.com/user-attachments/assets/dc8d5da8-615d-407f-a78a-bd5ab98e03de" />
 
 
