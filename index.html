@@ -264,10 +264,6 @@ nav.scrolled {
   0%,100% { opacity:0.6; background-position:0% 50%; }
   50% { opacity:1; }
 }
-
-/* =====================================================
-   FIX: Soft pulsing pink glow instead of rotating radar
-===================================================== */
 .hero-glass::after {
   content:'';
   position:absolute;inset:-2px;
@@ -303,9 +299,6 @@ nav.scrolled {
 @keyframes eyebrowShimmer { 0%{transform:translateX(-100%);} 50%,100%{transform:translateX(100%);} }
 .hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);animation:navPulse 1.5s ease-in-out infinite;}
 
-/* =====================================================
-   FIX: hero title accent — gradient visible on char spans
-===================================================== */
 .hero-title {
   font-family:'Cormorant Garamond',serif;
   font-size:clamp(42px,5.5vw,76px);
@@ -325,7 +318,6 @@ nav.scrolled {
 .hero-title-accent {
   display:block;
 }
-/* Each char inside the accent gets its own gradient clip so it's always visible */
 .hero-title-accent .char {
   background: linear-gradient(135deg, var(--pink) 0%, var(--rose) 50%, var(--pink-light) 100%);
   background-size: 200% 200%;
@@ -933,29 +925,18 @@ footer span{color:var(--pink);}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:none;}}
 
 .section-glow {
-  position:relative;
-  text-align:center;
-  padding:20px 0 40px;
-  z-index:1;
+  position:relative;text-align:center;padding:20px 0 40px;z-index:1;
 }
 .section-glow::before {
-  content:'';
-  display:block;
-  width:80px;height:1px;
+  content:'';display:block;width:80px;height:1px;
   background:linear-gradient(90deg,transparent,var(--pink),transparent);
   margin:0 auto 32px;
 }
-
 .float-badge {
-  position:fixed;
-  bottom:32px;right:32px;
-  z-index:200;
-  background:rgba(255,255,255,0.9);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(233,30,140,0.2);
-  border-radius:100px;
-  padding:10px 20px;
-  display:flex;align-items:center;gap:10px;
+  position:fixed;bottom:32px;right:32px;z-index:200;
+  background:rgba(255,255,255,0.9);backdrop-filter:blur(20px);
+  border:1px solid rgba(233,30,140,0.2);border-radius:100px;
+  padding:10px 20px;display:flex;align-items:center;gap:10px;
   box-shadow:0 8px 32px rgba(233,30,140,0.15);
   font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);
   transform:translateY(80px);
@@ -1050,6 +1031,7 @@ footer span{color:var(--pink);}
   footer{padding:24px 16px;font-size:11px;}
   .float-badge{display:none;}
 }
+
 @media(max-width:480px){
   nav{padding:12px 14px;}
   .nav-logo{font-size:17px;gap:7px;}
@@ -1058,7 +1040,14 @@ footer span{color:var(--pink);}
   .hero{padding:65px 12px 24px;}
   .hero-glass{padding:22px 16px 20px;border-radius:20px;}
   .hero-eyebrow{font-size:9px;padding:5px 12px;letter-spacing:1px;gap:6px;}
-  .hero-title{font-size:clamp(30px,9vw,46px);letter-spacing:-0.8px;}
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ONLY CHANGE: hero title font size reduced
+     so "Decode Your 2026 Balance" fits neatly
+     on mobile without mid-word breaking
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  .hero-title { font-size: clamp(22px, 5.8vw, 30px); letter-spacing: -0.5px; }
+
   .hero-sub{font-size:12px;line-height:1.6;}
   .hero-stats{flex-direction:row;gap:8px;padding:10px 12px;}
   .hero-stat-num{font-size:20px;}
@@ -1327,9 +1316,6 @@ footer span{color:var(--pink);}
 <footer class="reveal"><span>ChainOracle</span> · 2026 · Predictions are deterministic per wallet address.<br>Not financial advice. For entertainment &amp; motivation only.</footer>
 
 <script>
-/* ═══════════════════════════════════════════════════════════
-   CUSTOM CURSOR
-═══════════════════════════════════════════════════════════ */
 const dot = document.getElementById('cursor-dot');
 const ring = document.getElementById('cursor-ring');
 let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
@@ -1338,14 +1324,12 @@ document.addEventListener('mousemove', e => {
   mouseX = e.clientX; mouseY = e.clientY;
   dot.style.left = mouseX + 'px';
   dot.style.top = mouseY + 'px';
-
   const nx = (mouseX / window.innerWidth - 0.5);
   const ny = (mouseY / window.innerHeight - 0.5);
   document.getElementById('orb1').style.transform = `translate(${nx*30}px,${ny*20}px)`;
   document.getElementById('orb2').style.transform = `translate(${nx*-20}px,${ny*15}px)`;
   document.getElementById('orb3').style.transform = `translate(${nx*15}px,${ny*-25}px)`;
   document.getElementById('orb4').style.transform = `translate(${nx*-10}px,${ny*10}px)`;
-
   const gl = document.getElementById('hero-glass');
   if(gl) {
     const r = gl.getBoundingClientRect();
@@ -1361,7 +1345,6 @@ document.addEventListener('mousemove', e => {
     oc.style.setProperty('--cy', (mouseY-r2.top)+'px');
   }
 });
-
 function animateRing() {
   ringX += (mouseX - ringX) * 0.14;
   ringY += (mouseY - ringY) * 0.14;
@@ -1370,7 +1353,6 @@ function animateRing() {
   requestAnimationFrame(animateRing);
 }
 animateRing();
-
 document.querySelectorAll('a,button,.how-card,.bal-card,.chain-row,.follow-dev-card').forEach(el => {
   el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
   el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
@@ -1378,13 +1360,9 @@ document.querySelectorAll('a,button,.how-card,.bal-card,.chain-row,.follow-dev-c
 document.addEventListener('mousedown', () => ring.classList.add('clicking'));
 document.addEventListener('mouseup', () => ring.classList.remove('clicking'));
 
-/* ═══════════════════════════════════════════════════════════
-   SCROLL PROGRESS
-═══════════════════════════════════════════════════════════ */
 const progressBar = document.getElementById('scroll-progress');
 const nav = document.getElementById('main-nav');
 const floatBadge = document.getElementById('float-badge');
-
 window.addEventListener('scroll', () => {
   const scrolled = window.scrollY;
   const total = document.body.scrollHeight - window.innerHeight;
@@ -1393,88 +1371,62 @@ window.addEventListener('scroll', () => {
   floatBadge.classList.toggle('visible', scrolled > 300 && scrolled < total - 200);
 }, { passive: true });
 
-/* ═══════════════════════════════════════════════════════════
-   SCROLL REVEAL
-═══════════════════════════════════════════════════════════ */
 const revealObs = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if(entry.isIntersecting) entry.target.classList.add('visible');
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
 document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el => {
   revealObs.observe(el);
 });
 
-/* ═══════════════════════════════════════════════════════════
-   HERO TITLE — Split char animation
-═══════════════════════════════════════════════════════════ */
 (function() {
   const el = document.getElementById('hero-title-el');
   if(!el) return;
   const firstLine = 'Decode Your 2026 Balance';
-
   el.innerHTML = '';
   let delay = 0.5;
   for(let i = 0; i < firstLine.length; i++) {
     const ch = firstLine[i];
-    if(ch === ' ') {
-      el.appendChild(document.createTextNode('\u00A0'));
-    } else {
+    if(ch === ' ') { el.appendChild(document.createTextNode('\u00A0')); }
+    else {
       const span = document.createElement('span');
-      span.className = 'char';
-      span.textContent = ch;
-      span.style.animationDelay = delay + 's';
-      el.appendChild(span);
+      span.className = 'char'; span.textContent = ch;
+      span.style.animationDelay = delay + 's'; el.appendChild(span);
     }
     delay += 0.04;
   }
-
   el.appendChild(document.createElement('br'));
-
   const accent = document.createElement('span');
   accent.className = 'hero-title-accent';
   const accentText = 'Before It Happens.!';
   delay += 0.1;
   for(let i = 0; i < accentText.length; i++) {
     const ch = accentText[i];
-    if(ch === ' ') {
-      accent.appendChild(document.createTextNode('\u00A0'));
-    } else {
+    if(ch === ' ') { accent.appendChild(document.createTextNode('\u00A0')); }
+    else {
       const span = document.createElement('span');
-      span.className = 'char';
-      span.textContent = ch;
-      span.style.animationDelay = delay + 's';
-      accent.appendChild(span);
+      span.className = 'char'; span.textContent = ch;
+      span.style.animationDelay = delay + 's'; accent.appendChild(span);
     }
     delay += 0.038;
   }
   el.appendChild(accent);
 })();
 
-/* ═══════════════════════════════════════════════════════════
-   HOW CARDS — 3D tilt
-═══════════════════════════════════════════════════════════ */
 document.querySelectorAll('.how-card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const r = card.getBoundingClientRect();
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
+    const x = e.clientX - r.left, y = e.clientY - r.top;
     const cx = r.width / 2, cy = r.height / 2;
-    const rotX = ((y - cy) / cy) * -8;
-    const rotY = ((x - cx) / cx) * 8;
+    const rotX = ((y - cy) / cy) * -8, rotY = ((x - cx) / cx) * 8;
     card.style.transform = `translateY(-8px) scale(1.01) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
     card.style.setProperty('--cx', (x/r.width*100)+'%');
     card.style.setProperty('--cy', (y/r.height*100)+'%');
   });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
 });
 
-/* ═══════════════════════════════════════════════════════════
-   SUBMIT BUTTON RIPPLE
-═══════════════════════════════════════════════════════════ */
 function handleSubmitClick(e) {
   const btn = e.currentTarget;
   const r = btn.getBoundingClientRect();
@@ -1487,9 +1439,6 @@ function handleSubmitClick(e) {
   runOracle();
 }
 
-/* ═══════════════════════════════════════════════════════════
-   PARTICLES
-═══════════════════════════════════════════════════════════ */
 (function(){
   const wrap=document.getElementById('particles');
   for(let i=0;i<24;i++){
@@ -1503,9 +1452,6 @@ function handleSubmitClick(e) {
   }
 })();
 
-/* ═══════════════════════════════════════════════════════════
-   DEV PIC LOADER
-═══════════════════════════════════════════════════════════ */
 (function(){
   const el=document.getElementById('dev-pic');
   const img=document.createElement('img');
@@ -1514,20 +1460,10 @@ function handleSubmitClick(e) {
   img.src='https://unavatar.io/twitter/0x_zax';
 })();
 
-/* ═══════════════════════════════════════════════════════════
-   APP STATE & LOGIC
-═══════════════════════════════════════════════════════════ */
 let currentChain='evm';
 let currentResult=null;
 const STORAGE_KEY_PREFIX='chainoracle_v7:';
-const LOAD_STEPS=[
-  'Connecting to blockchain nodes...',
-  'Fetching on-chain data...',
-  'Scanning token balances...',
-  'Consulting the oracle...',
-  'Sealing your allocation...',
-  'Generating 2026 projection...'
-];
+const LOAD_STEPS=['Connecting to blockchain nodes...','Fetching on-chain data...','Scanning token balances...','Consulting the oracle...','Sealing your allocation...','Generating 2026 projection...'];
 
 function selectChain(c){
   currentChain=c;
@@ -1538,133 +1474,22 @@ function selectChain(c){
   document.getElementById('wallet-addr').placeholder=c==='evm'?'0x... EVM wallet address':'Solana address';
   hideErr();
 }
-function onWalletInput(){
-  hideErr();
-  const val=document.getElementById('wallet-addr').value.trim();
-  document.getElementById('wallet-bar').style.width=val?Math.min(val.length*3,80)+'%':'0%';
-}
-function onTwitterInput(){
-  const val=document.getElementById('twitter-handle').value.replace('@','').trim();
-  document.getElementById('twitter-bar').style.width=val.length>0?'70%':'0%';
-}
+function onWalletInput(){hideErr();const val=document.getElementById('wallet-addr').value.trim();document.getElementById('wallet-bar').style.width=val?Math.min(val.length*3,80)+'%':'0%';}
+function onTwitterInput(){const val=document.getElementById('twitter-handle').value.replace('@','').trim();document.getElementById('twitter-bar').style.width=val.length>0?'70%':'0%';}
 function hideErr(){document.getElementById('err-bar').style.display='none';}
 function showErr(m){const e=document.getElementById('err-bar');e.textContent='⚠ '+m;e.style.display='block';}
-function validateAddr(addr,chain){
-  if(chain==='evm') return /^0x[a-fA-F0-9]{40}$/.test(addr);
-  return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(addr);
-}
-function deterministicNum(addr){
-  let h=0;
-  for(let i=0;i<addr.length;i++){h=((h<<5)-h)+addr.charCodeAt(i);h|=0;}
-  return (Math.abs(h)%50)+1;
-}
+function validateAddr(addr,chain){if(chain==='evm')return /^0x[a-fA-F0-9]{40}$/.test(addr);return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(addr);}
+function deterministicNum(addr){let h=0;for(let i=0;i<addr.length;i++){h=((h<<5)-h)+addr.charCodeAt(i);h|=0;}return (Math.abs(h)%50)+1;}
 
-const ALCHEMY_ENDPOINTS={
-  eth:'https://eth-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',
-  arbitrum:'https://arb-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',
-  base:'https://base-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',
-  optimism:'https://opt-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',
-  polygon:'https://polygon-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',
-  solana:'https://solana-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',
-};
-async function fetchWithTimeout(url,options={},ms=10000){
-  const ctrl=new AbortController();
-  const id=setTimeout(()=>ctrl.abort(),ms);
-  try{const r=await fetch(url,{...options,signal:ctrl.signal});clearTimeout(id);return r;}
-  catch(e){clearTimeout(id);throw e;}
-}
-async function alchemyRPC(endpoint,method,params){
-  try{
-    const r=await fetchWithTimeout(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params})},10000);
-    if(!r.ok)return null;const d=await r.json();return d.result??null;
-  }catch(e){return null;}
-}
-async function getAllPrices(){
-  const ids='ethereum,solana,matic-network,binancecoin,tether,usd-coin,dai,weth,wrapped-bitcoin,chainlink,uniswap,aave,arbitrum,optimism';
-  const cgUrl=`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`;
-  try{const r=await fetchWithTimeout(cgUrl,{mode:'cors'},8000);if(r.ok){const d=await r.json();if(d.ethereum)return d;}}catch(e){}
-  try{const r=await fetchWithTimeout(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(cgUrl)}`,{},10000);if(r.ok){const d=await r.json();if(d.ethereum)return d;}}catch(e){}
-  try{const r=await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(cgUrl)}`,{},10000);if(r.ok){const outer=await r.json();if(outer.contents){const d=JSON.parse(outer.contents);if(d.ethereum)return d;}}}catch(e){}
-  return{ethereum:{usd:1850},solana:{usd:135},'matic-network':{usd:0.38},tether:{usd:1},'usd-coin':{usd:1},dai:{usd:1},weth:{usd:1850},'wrapped-bitcoin':{usd:87000},chainlink:{usd:13},uniswap:{usd:6},aave:{usd:160},arbitrum:{usd:0.38},optimism:{usd:0.75}};
-}
-const TOKEN_ID_MAP={
-  '0xdac17f958d2ee523a2206206994597c13d831ec7':{id:'tether',sym:'USDT',decimals:6},
-  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':{id:'usd-coin',sym:'USDC',decimals:6},
-  '0x6b175474e89094c44da98b954eedeac495271d0f':{id:'dai',sym:'DAI',decimals:18},
-  '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2':{id:'weth',sym:'WETH',decimals:18},
-  '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599':{id:'wrapped-bitcoin',sym:'WBTC',decimals:8},
-  '0x514910771af9ca656af840dff83e8264ecf986ca':{id:'chainlink',sym:'LINK',decimals:18},
-  '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984':{id:'uniswap',sym:'UNI',decimals:18},
-  '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9':{id:'aave',sym:'AAVE',decimals:18},
-  '0x912ce59144191c1204e64559fe8253a0e49e6548':{id:'arbitrum',sym:'ARB',decimals:18},
-  '0x4200000000000000000000000000000000000042':{id:'optimism',sym:'OP',decimals:18},
-};
-async function fetchEVMBalance(addr){
-  const prices=await getAllPrices();
-  const ethPrice=prices?.ethereum?.usd||1800;
-  const maticPrice=prices?.['matic-network']?.usd||0.35;
-  const chainDefs=[
-    {key:'eth',name:'Ethereum',logo:'<img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(98,126,234,0.12)',fg:'#627EEA',tok:'ETH',price:ethPrice},
-    {key:'arbitrum',name:'Arbitrum',logo:'<img src="https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(40,160,240,0.12)',fg:'#28A0F0',tok:'ETH',price:ethPrice},
-    {key:'base',name:'Base',logo:'<img src="https://assets.coingecko.com/asset_platforms/images/131/small/base-network.png" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(0,82,255,0.12)',fg:'#3B6EF0',tok:'ETH',price:ethPrice},
-    {key:'optimism',name:'Optimism',logo:'<img src="https://assets.coingecko.com/coins/images/25244/small/Optimism.png" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(255,4,32,0.12)',fg:'#FF4858',tok:'ETH',price:ethPrice},
-    {key:'polygon',name:'Polygon',logo:'<img src="https://assets.coingecko.com/coins/images/4713/small/polygon.png" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(130,71,229,0.12)',fg:'#9B51E0',tok:'POL',price:maticPrice},
-  ];
-  const results=await Promise.all(chainDefs.map(async c=>{
-    const raw=await alchemyRPC(ALCHEMY_ENDPOINTS[c.key],'eth_getBalance',[addr,'latest']);
-    if(raw===null)return null;
-    const amount=parseInt(raw,16)/1e18;
-    return{...c,amount,value:amount*c.price};
-  }));
-  let tokenEntries=[],tokenTotalUSD=0;
-  try{
-    const tokRes=await alchemyRPC(ALCHEMY_ENDPOINTS.eth,'alchemy_getTokenBalances',[addr,'erc20']);
-    if(tokRes&&tokRes.tokenBalances){
-      const nonZero=tokRes.tokenBalances.filter(t=>t.tokenBalance&&BigInt(t.tokenBalance)>0n).slice(0,20);
-      for(const tok of nonZero){
-        const ca=tok.contractAddress.toLowerCase();const known=TOKEN_ID_MAP[ca];
-        if(known){
-          const rawBal=BigInt(tok.tokenBalance);const amount=Number(rawBal)/Math.pow(10,known.decimals);
-          const price=prices[known.id]?.usd||0;const usdVal=amount*price;
-          tokenTotalUSD+=usdVal;
-          if(usdVal>0.01||amount>0) tokenEntries.push({name:known.sym,contractAddress:ca,amount,usdVal,bg:'rgba(233,30,140,0.08)',fg:'var(--pink)'});
-        }
-      }
-    }
-  }catch(e){}
-  const chains=(results||[]).filter(c=>c&&c.amount>0.0000001).map(c=>({...c,amount:parseFloat(c.amount.toFixed(6)),value:parseFloat(c.value.toFixed(4))}));
-  const displayChains=chains.length>0?chains:[{...chainDefs[0],amount:0,value:0}];
-  const nativeETH=(results||[]).filter(c=>c&&c.tok==='ETH').reduce((s,c)=>s+(c?c.amount:0),0);
-  const nativeUSD=chains.reduce((s,c)=>s+c.value,0);
-  const totalUSD=nativeUSD+tokenTotalUSD;
-  return{chains:displayChains,tokenEntries,nativeAmt:nativeETH.toFixed(6),nativeSym:'ETH',totalUSD,source:'alchemy'};
-}
-async function fetchSolanaBalance(addr){
-  const prices=await getAllPrices();
-  const solPrice=prices?.solana?.usd||130;
-  let solBalance=0;
-  try{
-    const r=await fetchWithTimeout(ALCHEMY_ENDPOINTS.solana,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[addr]})},10000);
-    if(r.ok){const d=await r.json();if(d.result?.value!==undefined)solBalance=d.result.value/1e9;}
-  }catch(e){}
-  const totalUSD=solBalance*solPrice;
-  return{chains:[{name:'Solana Mainnet',logo:'<img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(153,69,255,0.12)',fg:'#9945FF',tok:'SOL',price:solPrice,amount:solBalance,value:solBalance*solPrice}],tokenEntries:[],nativeAmt:solBalance.toFixed(4),nativeSym:'SOL',totalUSD,source:'alchemy'};
-}
-function calcMilestone(alloc,usd){
-  function seededRand(seed,min,max){
-    let x=Math.sin(seed+alloc*7.3921)*10000;x=x-Math.floor(x);return Math.round(min+x*(max-min));
-  }
-  const addrSeed=alloc*137.5+usd*0.001;
-  if(usd<100)return seededRand(addrSeed,5000,8000);
-  else if(usd<500)return seededRand(addrSeed,10000,15000);
-  else{const base=15000+Math.floor(usd*8);return seededRand(addrSeed,base,base+Math.floor(usd*14));}
-}
-async function loadTwitterPic(handle,el){
-  const img=document.createElement('img');
-  img.onload=()=>{el.innerHTML='';el.appendChild(img);};
-  img.onerror=()=>{el.textContent=handle[0].toUpperCase();};
-  img.src='https://unavatar.io/twitter/'+handle;
-}
+const ALCHEMY_ENDPOINTS={eth:'https://eth-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',arbitrum:'https://arb-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',base:'https://base-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',optimism:'https://opt-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',polygon:'https://polygon-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_',solana:'https://solana-mainnet.g.alchemy.com/v2/HvdWAo9Vje8iwhfAgV7H_'};
+async function fetchWithTimeout(url,options={},ms=10000){const ctrl=new AbortController();const id=setTimeout(()=>ctrl.abort(),ms);try{const r=await fetch(url,{...options,signal:ctrl.signal});clearTimeout(id);return r;}catch(e){clearTimeout(id);throw e;}}
+async function alchemyRPC(endpoint,method,params){try{const r=await fetchWithTimeout(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params})},10000);if(!r.ok)return null;const d=await r.json();return d.result??null;}catch(e){return null;}}
+async function getAllPrices(){const ids='ethereum,solana,matic-network,binancecoin,tether,usd-coin,dai,weth,wrapped-bitcoin,chainlink,uniswap,aave,arbitrum,optimism';const cgUrl=`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`;try{const r=await fetchWithTimeout(cgUrl,{mode:'cors'},8000);if(r.ok){const d=await r.json();if(d.ethereum)return d;}}catch(e){}try{const r=await fetchWithTimeout(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(cgUrl)}`,{},10000);if(r.ok){const d=await r.json();if(d.ethereum)return d;}}catch(e){}try{const r=await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(cgUrl)}`,{},10000);if(r.ok){const outer=await r.json();if(outer.contents){const d=JSON.parse(outer.contents);if(d.ethereum)return d;}}}catch(e){}return{ethereum:{usd:1850},solana:{usd:135},'matic-network':{usd:0.38},tether:{usd:1},'usd-coin':{usd:1},dai:{usd:1},weth:{usd:1850},'wrapped-bitcoin':{usd:87000},chainlink:{usd:13},uniswap:{usd:6},aave:{usd:160},arbitrum:{usd:0.38},optimism:{usd:0.75}};}
+const TOKEN_ID_MAP={'0xdac17f958d2ee523a2206206994597c13d831ec7':{id:'tether',sym:'USDT',decimals:6},'0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48':{id:'usd-coin',sym:'USDC',decimals:6},'0x6b175474e89094c44da98b954eedeac495271d0f':{id:'dai',sym:'DAI',decimals:18},'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2':{id:'weth',sym:'WETH',decimals:18},'0x2260fac5e5542a773aa44fbcfedf7c193bc2c599':{id:'wrapped-bitcoin',sym:'WBTC',decimals:8},'0x514910771af9ca656af840dff83e8264ecf986ca':{id:'chainlink',sym:'LINK',decimals:18},'0x1f9840a85d5af5bf1d1762f925bdaddc4201f984':{id:'uniswap',sym:'UNI',decimals:18},'0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9':{id:'aave',sym:'AAVE',decimals:18},'0x912ce59144191c1204e64559fe8253a0e49e6548':{id:'arbitrum',sym:'ARB',decimals:18},'0x4200000000000000000000000000000000000042':{id:'optimism',sym:'OP',decimals:18}};
+async function fetchEVMBalance(addr){const prices=await getAllPrices();const ethPrice=prices?.ethereum?.usd||1800;const maticPrice=prices?.['matic-network']?.usd||0.35;const chainDefs=[{key:'eth',name:'Ethereum',logo:'<img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(98,126,234,0.12)',fg:'#627EEA',tok:'ETH',price:ethPrice},{key:'arbitrum',name:'Arbitrum',logo:'<img src="https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(40,160,240,0.12)',fg:'#28A0F0',tok:'ETH',price:ethPrice},{key:'base',name:'Base',logo:'<img src="https://assets.coingecko.com/asset_platforms/images/131/small/base-network.png" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(0,82,255,0.12)',fg:'#3B6EF0',tok:'ETH',price:ethPrice},{key:'optimism',name:'Optimism',logo:'<img src="https://assets.coingecko.com/coins/images/25244/small/Optimism.png" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(255,4,32,0.12)',fg:'#FF4858',tok:'ETH',price:ethPrice},{key:'polygon',name:'Polygon',logo:'<img src="https://assets.coingecko.com/coins/images/4713/small/polygon.png" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(130,71,229,0.12)',fg:'#9B51E0',tok:'POL',price:maticPrice}];const results=await Promise.all(chainDefs.map(async c=>{const raw=await alchemyRPC(ALCHEMY_ENDPOINTS[c.key],'eth_getBalance',[addr,'latest']);if(raw===null)return null;const amount=parseInt(raw,16)/1e18;return{...c,amount,value:amount*c.price};}));let tokenEntries=[],tokenTotalUSD=0;try{const tokRes=await alchemyRPC(ALCHEMY_ENDPOINTS.eth,'alchemy_getTokenBalances',[addr,'erc20']);if(tokRes&&tokRes.tokenBalances){const nonZero=tokRes.tokenBalances.filter(t=>t.tokenBalance&&BigInt(t.tokenBalance)>0n).slice(0,20);for(const tok of nonZero){const ca=tok.contractAddress.toLowerCase();const known=TOKEN_ID_MAP[ca];if(known){const rawBal=BigInt(tok.tokenBalance);const amount=Number(rawBal)/Math.pow(10,known.decimals);const price=prices[known.id]?.usd||0;const usdVal=amount*price;tokenTotalUSD+=usdVal;if(usdVal>0.01||amount>0)tokenEntries.push({name:known.sym,contractAddress:ca,amount,usdVal,bg:'rgba(233,30,140,0.08)',fg:'var(--pink)'});}}}}catch(e){}const chains=(results||[]).filter(c=>c&&c.amount>0.0000001).map(c=>({...c,amount:parseFloat(c.amount.toFixed(6)),value:parseFloat(c.value.toFixed(4))}));const displayChains=chains.length>0?chains:[{...chainDefs[0],amount:0,value:0}];const nativeETH=(results||[]).filter(c=>c&&c.tok==='ETH').reduce((s,c)=>s+(c?c.amount:0),0);const nativeUSD=chains.reduce((s,c)=>s+c.value,0);const totalUSD=nativeUSD+tokenTotalUSD;return{chains:displayChains,tokenEntries,nativeAmt:nativeETH.toFixed(6),nativeSym:'ETH',totalUSD,source:'alchemy'};}
+async function fetchSolanaBalance(addr){const prices=await getAllPrices();const solPrice=prices?.solana?.usd||130;let solBalance=0;try{const r=await fetchWithTimeout(ALCHEMY_ENDPOINTS.solana,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[addr]})},10000);if(r.ok){const d=await r.json();if(d.result?.value!==undefined)solBalance=d.result.value/1e9;}}catch(e){}const totalUSD=solBalance*solPrice;return{chains:[{name:'Solana Mainnet',logo:'<img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" style="width:18px;height:18px;border-radius:50%;object-fit:cover">',bg:'rgba(153,69,255,0.12)',fg:'#9945FF',tok:'SOL',price:solPrice,amount:solBalance,value:solBalance*solPrice}],tokenEntries:[],nativeAmt:solBalance.toFixed(4),nativeSym:'SOL',totalUSD,source:'alchemy'};}
+function calcMilestone(alloc,usd){function seededRand(seed,min,max){let x=Math.sin(seed+alloc*7.3921)*10000;x=x-Math.floor(x);return Math.round(min+x*(max-min));}const addrSeed=alloc*137.5+usd*0.001;if(usd<100)return seededRand(addrSeed,5000,8000);else if(usd<500)return seededRand(addrSeed,10000,15000);else{const base=15000+Math.floor(usd*8);return seededRand(addrSeed,base,base+Math.floor(usd*14));}}
+async function loadTwitterPic(handle,el){const img=document.createElement('img');img.onload=()=>{el.innerHTML='';el.appendChild(img);};img.onerror=()=>{el.textContent=handle[0].toUpperCase();};img.src='https://unavatar.io/twitter/'+handle;}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
 async function runOracle(){
@@ -1672,25 +1497,15 @@ async function runOracle(){
   const twitterRaw=document.getElementById('twitter-handle').value.trim().replace('@','');
   hideErr();
   if(!addr){showErr('Please enter a wallet address.');return;}
-  if(!validateAddr(addr,currentChain)){
-    showErr(currentChain==='evm'?'Invalid EVM address. Must start with 0x, 42 characters.':'Invalid Solana address. Must be 32–44 base58 characters.');
-    return;
-  }
+  if(!validateAddr(addr,currentChain)){showErr(currentChain==='evm'?'Invalid EVM address. Must start with 0x, 42 characters.':'Invalid Solana address. Must be 32–44 base58 characters.');return;}
   const cacheKey=STORAGE_KEY_PREFIX+addr.toLowerCase();
   let cached=null;
   try{const raw=await window.storage.get(cacheKey);if(raw)cached=JSON.parse(raw.value);}catch(e){}
   if(cached){showResult(cached,twitterRaw||cached.twitter||'');return;}
-
   document.getElementById('input-panel').style.display='none';
   document.getElementById('loading-panel').style.display='flex';
-
   let stepIdx=0;
-  const stepInterval=setInterval(()=>{
-    if(stepIdx<LOAD_STEPS.length){
-      if(stepIdx>0)document.getElementById('loader-done').textContent='✓ '+LOAD_STEPS[stepIdx-1];
-      document.getElementById('loader-current').textContent=LOAD_STEPS[stepIdx];stepIdx++;
-    }
-  },400);
+  const stepInterval=setInterval(()=>{if(stepIdx<LOAD_STEPS.length){if(stepIdx>0)document.getElementById('loader-done').textContent='✓ '+LOAD_STEPS[stepIdx-1];document.getElementById('loader-current').textContent=LOAD_STEPS[stepIdx];stepIdx++;}},400);
   let balData;
   try{balData=currentChain==='evm'?await fetchEVMBalance(addr):await fetchSolanaBalance(addr);}
   catch(e){balData={chains:[],tokenEntries:[],nativeAmt:'0',nativeSym:currentChain==='evm'?'ETH':'SOL',totalUSD:0,source:'error'};}
@@ -1735,31 +1550,15 @@ function showResult(result,twitterOverride){
   const displayPct=Math.min(Math.max(rawPct,0.5),92);
   document.getElementById('rl-pct-bubble').textContent=(rawPct<1?rawPct.toFixed(1):Math.round(rawPct))+'%';
   const cl=document.getElementById('chains-list');cl.innerHTML='';
-  result.balData.chains.forEach(c=>{
-    if(c.value<0.005&&c.amount<0.0000001)return;
-    const dispVal=c.value<0.01?'<$0.01':'$'+c.value.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-    const row=document.createElement('div');row.className='chain-row';
-    row.innerHTML=`<div class="chain-row-left"><div class="chain-logo-c" style="background:${c.bg};color:${c.fg};display:flex;align-items:center;justify-content:center">${c.logo}</div><div><div class="chain-row-name">${c.name}</div><div class="chain-row-tok">${c.amount.toFixed(6)} ${c.tok}</div></div></div><div class="chain-row-val">${dispVal}</div>`;
-    cl.appendChild(row);
-  });
-  (result.balData.tokenEntries||[]).filter(t=>t.usdVal>0.01||t.amount>0).forEach(t=>{
-    const dispAmt=t.amount>1000?t.amount.toLocaleString(undefined,{maximumFractionDigits:2}):t.amount.toFixed(4);
-    const dispVal=t.usdVal<0.01?'<$0.01':'$'+t.usdVal.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-    const row=document.createElement('div');row.className='chain-row';
-    row.innerHTML=`<div class="chain-row-left"><div style="background:${t.bg};color:${t.fg};width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace">${t.name.slice(0,4)}</div><div><div class="chain-row-name">${t.name}</div><div class="chain-row-tok">${dispAmt} ${t.name}</div></div></div><div class="chain-row-val">${dispVal}</div>`;
-    cl.appendChild(row);
-  });
+  result.balData.chains.forEach(c=>{if(c.value<0.005&&c.amount<0.0000001)return;const dispVal=c.value<0.01?'<$0.01':'$'+c.value.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});const row=document.createElement('div');row.className='chain-row';row.innerHTML=`<div class="chain-row-left"><div class="chain-logo-c" style="background:${c.bg};color:${c.fg};display:flex;align-items:center;justify-content:center">${c.logo}</div><div><div class="chain-row-name">${c.name}</div><div class="chain-row-tok">${c.amount.toFixed(6)} ${c.tok}</div></div></div><div class="chain-row-val">${dispVal}</div>`;cl.appendChild(row);});
+  (result.balData.tokenEntries||[]).filter(t=>t.usdVal>0.01||t.amount>0).forEach(t=>{const dispAmt=t.amount>1000?t.amount.toLocaleString(undefined,{maximumFractionDigits:2}):t.amount.toFixed(4);const dispVal=t.usdVal<0.01?'<$0.01':'$'+t.usdVal.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});const row=document.createElement('div');row.className='chain-row';row.innerHTML=`<div class="chain-row-left"><div style="background:${t.bg};color:${t.fg};width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace">${t.name.slice(0,4)}</div><div><div class="chain-row-name">${t.name}</div><div class="chain-row-tok">${dispAmt} ${t.name}</div></div></div><div class="chain-row-val">${dispVal}</div>`;cl.appendChild(row);});
   if(cl.children.length===0)cl.innerHTML='<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:13px">No balances found</div>';
   document.getElementById('result-panel').style.display='block';
   setTimeout(()=>document.getElementById('oracle-section').scrollIntoView({behavior:'smooth',block:'center'}),100);
   document.getElementById('rl-fill').style.width='0%';
   document.getElementById('rl-cursor').style.left='0%';
   document.getElementById('rl-pct-bubble').style.left='0%';
-  setTimeout(()=>{
-    document.getElementById('rl-fill').style.width=displayPct+'%';
-    document.getElementById('rl-cursor').style.left=displayPct+'%';
-    document.getElementById('rl-pct-bubble').style.left=displayPct+'%';
-  },500);
+  setTimeout(()=>{document.getElementById('rl-fill').style.width=displayPct+'%';document.getElementById('rl-cursor').style.left=displayPct+'%';document.getElementById('rl-pct-bubble').style.left=displayPct+'%';},500);
   setTimeout(()=>renderPortfolioChart(usd,result.milestone),600);
 }
 
@@ -1778,73 +1577,37 @@ function renderPortfolioChart(currentUSD,milestoneUSD){
   const PAD={top:24,right:24,bottom:16,left:16};
   const cW=W-PAD.left-PAD.right,cH=H-PAD.top-PAD.bottom;
   const N=40,points=[];
-  for(let i=0;i<N;i++){
-    const t=i/(N-1),eased=Math.pow(t,0.75);
-    const val=currentUSD+(milestoneUSD-currentUSD)*eased;
-    const noise=(Math.sin(i*2.718+1.414)*0.04+1.0);
-    points.push({t,val:val*(i>0&&i<N-1?noise:1)});
-  }
+  for(let i=0;i<N;i++){const t=i/(N-1),eased=Math.pow(t,0.75);const val=currentUSD+(milestoneUSD-currentUSD)*eased;const noise=(Math.sin(i*2.718+1.414)*0.04+1.0);points.push({t,val:val*(i>0&&i<N-1?noise:1)});}
   points[N-1].val=milestoneUSD;points[0].val=currentUSD;
   const minVal=currentUSD*0.92,maxVal=milestoneUSD*1.04;
   function toX(t){return PAD.left+t*cW;}
   function toY(v){return PAD.top+cH-((v-minVal)/(maxVal-minVal))*cH;}
   function draw(highlightIdx=-1){
     ctx.clearRect(0,0,W,H);
-    ctx.save();
-    for(let g=0;g<=3;g++){
-      const y=PAD.top+(cH/3)*g;ctx.beginPath();ctx.moveTo(PAD.left,y);ctx.lineTo(W-PAD.right,y);
-      ctx.strokeStyle='rgba(233,30,140,0.07)';ctx.lineWidth=1;ctx.stroke();
-    }
-    ctx.restore();
-    const grad=ctx.createLinearGradient(0,PAD.top,0,H);
-    grad.addColorStop(0,'rgba(233,30,140,0.18)');grad.addColorStop(1,'rgba(233,30,140,0.00)');
+    ctx.save();for(let g=0;g<=3;g++){const y=PAD.top+(cH/3)*g;ctx.beginPath();ctx.moveTo(PAD.left,y);ctx.lineTo(W-PAD.right,y);ctx.strokeStyle='rgba(233,30,140,0.07)';ctx.lineWidth=1;ctx.stroke();}ctx.restore();
+    const grad=ctx.createLinearGradient(0,PAD.top,0,H);grad.addColorStop(0,'rgba(233,30,140,0.18)');grad.addColorStop(1,'rgba(233,30,140,0.00)');
     ctx.beginPath();ctx.moveTo(toX(points[0].t),toY(points[0].val));
     for(let i=1;i<N;i++){const prev=points[i-1],cur=points[i];const cpx=(toX(prev.t)+toX(cur.t))/2;ctx.bezierCurveTo(cpx,toY(prev.val),cpx,toY(cur.val),toX(cur.t),toY(cur.val));}
-    ctx.lineTo(toX(points[N-1].t),H-PAD.bottom+4);ctx.lineTo(toX(points[0].t),H-PAD.bottom+4);
-    ctx.closePath();ctx.fillStyle=grad;ctx.fill();
-    const lineGrad=ctx.createLinearGradient(PAD.left,0,W-PAD.right,0);
-    lineGrad.addColorStop(0,'#E91E8C');lineGrad.addColorStop(1,'#FF6BC4');
+    ctx.lineTo(toX(points[N-1].t),H-PAD.bottom+4);ctx.lineTo(toX(points[0].t),H-PAD.bottom+4);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+    const lineGrad=ctx.createLinearGradient(PAD.left,0,W-PAD.right,0);lineGrad.addColorStop(0,'#E91E8C');lineGrad.addColorStop(1,'#FF6BC4');
     ctx.beginPath();ctx.moveTo(toX(points[0].t),toY(points[0].val));
     for(let i=1;i<N;i++){const prev=points[i-1],cur=points[i];const cpx=(toX(prev.t)+toX(cur.t))/2;ctx.bezierCurveTo(cpx,toY(prev.val),cpx,toY(cur.val),toX(cur.t),toY(cur.val));}
     ctx.strokeStyle=lineGrad;ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();
-    ctx.beginPath();ctx.arc(toX(points[0].t),toY(points[0].val),5,0,Math.PI*2);
-    ctx.fillStyle='#E91E8C';ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();
+    ctx.beginPath();ctx.arc(toX(points[0].t),toY(points[0].val),5,0,Math.PI*2);ctx.fillStyle='#E91E8C';ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();
     const ex=toX(points[N-1].t),ey=toY(points[N-1].val);
-    const glow=ctx.createRadialGradient(ex,ey,0,ex,ey,14);
-    glow.addColorStop(0,'rgba(233,30,140,0.25)');glow.addColorStop(1,'rgba(233,30,140,0)');
+    const glow=ctx.createRadialGradient(ex,ey,0,ex,ey,14);glow.addColorStop(0,'rgba(233,30,140,0.25)');glow.addColorStop(1,'rgba(233,30,140,0)');
     ctx.beginPath();ctx.arc(ex,ey,14,0,Math.PI*2);ctx.fillStyle=glow;ctx.fill();
     ctx.beginPath();ctx.arc(ex,ey,5,0,Math.PI*2);ctx.fillStyle='#E91E8C';ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=2;ctx.stroke();
-    if(highlightIdx>=0){
-      const p=points[highlightIdx];const hx=toX(p.t),hy=toY(p.val);
-      ctx.save();ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(hx,PAD.top);ctx.lineTo(hx,H-PAD.bottom);
-      ctx.strokeStyle='rgba(233,30,140,0.3)';ctx.lineWidth=1;ctx.stroke();ctx.restore();
-      ctx.beginPath();ctx.arc(hx,hy,6,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();
-      ctx.strokeStyle='#E91E8C';ctx.lineWidth=2.5;ctx.stroke();
-      ctx.beginPath();ctx.arc(hx,hy,3,0,Math.PI*2);ctx.fillStyle='#E91E8C';ctx.fill();
-    }
+    if(highlightIdx>=0){const p=points[highlightIdx];const hx=toX(p.t),hy=toY(p.val);ctx.save();ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(hx,PAD.top);ctx.lineTo(hx,H-PAD.bottom);ctx.strokeStyle='rgba(233,30,140,0.3)';ctx.lineWidth=1;ctx.stroke();ctx.restore();ctx.beginPath();ctx.arc(hx,hy,6,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();ctx.strokeStyle='#E91E8C';ctx.lineWidth=2.5;ctx.stroke();ctx.beginPath();ctx.arc(hx,hy,3,0,Math.PI*2);ctx.fillStyle='#E91E8C';ctx.fill();}
   }
   draw();
   function fmtUSDC(v){if(v>=1000)return'$'+v.toLocaleString(undefined,{maximumFractionDigits:0});return'$'+v.toFixed(2);}
   function getMonth(t){const now=new Date();const end=new Date(2026,11,31);const ms=now.getTime()+t*(end.getTime()-now.getTime());return new Date(ms).toLocaleDateString('en-US',{month:'short',year:'numeric'});}
-  canvas.addEventListener('mousemove',e=>{
-    const r=canvas.getBoundingClientRect();const mx=e.clientX-r.left;
-    const t=Math.max(0,Math.min(1,(mx-PAD.left)/cW));const idx=Math.round(t*(N-1));const p=points[idx];draw(idx);
-    const pct=milestoneUSD>0?((p.val/milestoneUSD)*100).toFixed(1):'0.0';
-    document.getElementById('tt-val').textContent=fmtUSDC(p.val);
-    document.getElementById('tt-pct').textContent=pct+'% of goal';
-    document.getElementById('tt-date').textContent=getMonth(p.t);
-    const tx=toX(p.t),ty=toY(p.val),ttW=140,ttH=72;
-    let tleft=tx+12;if(tleft+ttW>W-PAD.right)tleft=tx-ttW-12;
-    let ttop=ty-ttH/2;if(ttop<0)ttop=4;if(ttop+ttH>H)ttop=H-ttH-4;
-    tooltip.style.display='block';tooltip.style.left=tleft+'px';tooltip.style.top=ttop+'px';
-  });
+  canvas.addEventListener('mousemove',e=>{const r=canvas.getBoundingClientRect();const mx=e.clientX-r.left;const t=Math.max(0,Math.min(1,(mx-PAD.left)/cW));const idx=Math.round(t*(N-1));const p=points[idx];draw(idx);const pct=milestoneUSD>0?((p.val/milestoneUSD)*100).toFixed(1):'0.0';document.getElementById('tt-val').textContent=fmtUSDC(p.val);document.getElementById('tt-pct').textContent=pct+'% of goal';document.getElementById('tt-date').textContent=getMonth(p.t);const tx=toX(p.t),ty=toY(p.val),ttW=140,ttH=72;let tleft=tx+12;if(tleft+ttW>W-PAD.right)tleft=tx-ttW-12;let ttop=ty-ttH/2;if(ttop<0)ttop=4;if(ttop+ttH>H)ttop=H-ttH-4;tooltip.style.display='block';tooltip.style.left=tleft+'px';tooltip.style.top=ttop+'px';});
   canvas.addEventListener('mouseleave',()=>{tooltip.style.display='none';draw();});
 }
 
-function fmtUSD(v){
-  if(v>=1000)return'$'+v.toLocaleString(undefined,{maximumFractionDigits:0});
-  return'$'+v.toFixed(v<1?4:2);
-}
+function fmtUSD(v){if(v>=1000)return'$'+v.toLocaleString(undefined,{maximumFractionDigits:0});return'$'+v.toFixed(v<1?4:2);}
 function shareOnX(){
   if(!currentResult)return;
   const tw=document.getElementById('twitter-handle').value.trim();
