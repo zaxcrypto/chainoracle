@@ -1852,7 +1852,7 @@ function shareOnX(){
   const ms='$'+currentResult.milestone.toLocaleString();
   const chain=currentResult.chain==='evm'?'EVM':'Solana';
   const rawPct=currentResult.milestone>0?(currentResult.balData.totalUSD/currentResult.milestone*100):0;
-  const text=`🔮 ChainOracle revealed my 2026 wealth milestone${handle}\n\n💎 Target: ${ms}\n📊 I'm currently at ${Math.round(rawPct)}% of my ${chain} milestone\n\nDiscover yours 👇\n#ChainOracle #Crypto #Web3 #2026`;
+  const text=`🔮 ChainOracle revealed my 2026 wealth milestone${handle}\n\n💎 Target: ${ms}\n📊 I'm currently at ${Math.round(rawPct)}% of my ${chain} milestone\n\nDiscover yours 👇\nhttps://chainoracle-beta.vercel.app/`;
   window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text),'_blank');
 }
 </script>
